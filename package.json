@@ -1,0 +1,12 @@
+{
+    "name": "com.deathbygravitystudio.behaviour.hfsm",
+    "version": "0.1.0",
+    "displayName": "Behaviour HFSM",
+    "description": "Hierarchical finite state machine",
+    "dependencies": {
+        "com.deathbygravitystudio.behaviour.vars": "0.1.0"
+    },
+    "author": {
+        "name": "Death By Gravity Studio"
+    }
+}
