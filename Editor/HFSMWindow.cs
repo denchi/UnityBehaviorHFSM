@@ -492,6 +492,10 @@ namespace Behaviours.HFSM.Editor
                             var animatableType = System.AppDomain.CurrentDomain.GetAssemblies()
                                 .SelectMany(assembly => assembly.GetTypes())
                                 .FirstOrDefault(type => type.Name == "IAnimatable");
+
+                            if (animatableType == default)
+                                // TODO: Make it dynamical tab
+                                break;
                             
                             // call animator.GetComponentInChildren with the animatableType
                             var animatable = animator.GetComponentInChildren(animatableType);
@@ -651,20 +655,14 @@ namespace Behaviours.HFSM.Editor
 
                         menu.AddSeparator("");
 
-                        System.Type baseType = typeof(IBaseState);
-                        System.Type[] types = System.Reflection.Assembly.GetAssembly(baseType).GetTypes();
-                        for (int i = 0; i < types.Length; ++i)
+                        var types = HFSMUtils.GetStatesTypes();
+                            
+                        for (int i = 0; i < types.Count; ++i)
                         {
-                            if (types[i].IsSubclassOf(baseType))
-                            {
-                                if (types[i] != typeof(IBaseState))
-                                {
-                                    SetScriptInfo ssi = new SetScriptInfo();
-                                    ssi.node = node;
-                                    ssi.type = types[i];
-                                    menu.AddItem(new GUIContent("Set script.../" + types[i].FullName.Replace(".", "/")), false, OnContextMenuItemClick_HFSMSetState, ssi);
-                                }
-                            }
+                            SetScriptInfo ssi = new SetScriptInfo();
+                            ssi.node = node;
+                            ssi.type = types[i];
+                            menu.AddItem(new GUIContent("Set script.../" + types[i].FullName.Replace(".", "/")), false, OnContextMenuItemClick_HFSMSetState, ssi);
                         }
 
                         menu.AddSeparator("");
@@ -678,20 +676,13 @@ namespace Behaviours.HFSM.Editor
                         menu.AddItem(new GUIContent("Set as/Exit state"), false, OnContextMenuItemClick_HFSMSetExit, node);
                         menu.AddSeparator("");
 
-                        System.Type baseType = typeof(IBaseState);
-                        System.Type[] types = System.Reflection.Assembly.GetAssembly(baseType).GetTypes();
-                        for (int i = 0; i < types.Length; ++i)
+                        var types = HFSMUtils.GetStatesTypes();
+                        for (int i = 0; i < types.Count; ++i)
                         {
-                            if (types[i].IsSubclassOf(baseType))
-                            {
-                                if (types[i] != typeof(IBaseState))
-                                {
-                                    SetScriptInfo ssi = new SetScriptInfo();
-                                    ssi.node = node;
-                                    ssi.type = types[i];
-                                    menu.AddItem(new GUIContent("Set script.../" + types[i].FullName.Replace(".", "/")), false, OnContextMenuItemClick_HFSMSetState, ssi);
-                                }
-                            }
+                            SetScriptInfo ssi = new SetScriptInfo();
+                            ssi.node = node;
+                            ssi.type = types[i];
+                            menu.AddItem(new GUIContent("Set script.../" + types[i].FullName.Replace(".", "/")), false, OnContextMenuItemClick_HFSMSetState, ssi);
                         }
 
                         menu.AddSeparator("");

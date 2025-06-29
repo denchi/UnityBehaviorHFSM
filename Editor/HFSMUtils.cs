@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Behaviours.HFSM.Runtime;
 using UnityEditor;
 using Newtonsoft.Json.Linq;
+using Object = UnityEngine.Object;
 
 namespace Behaviours.HFSM.Editor
 {
@@ -21,6 +23,45 @@ namespace Behaviours.HFSM.Editor
 
                 AssetDatabase.ImportAsset(filePath);
             }
+        }
+
+        [MenuItem("Assets/Create/Behaviours/HFSM")]
+        static void CreateLayerFromMenu()
+        {
+            // Get the current folder path based on selection
+            string folderPath = "Assets";
+            
+            // Check if we have a selection in the Project view
+            if (Selection.activeObject != null)
+            {
+                string assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+                
+                // If it's a folder, use it directly
+                if (AssetDatabase.IsValidFolder(assetPath))
+                {
+                    folderPath = assetPath;
+                }
+                // Otherwise use the parent folder
+                else
+                {
+                    folderPath = System.IO.Path.GetDirectoryName(assetPath);
+                }
+            }
+            
+            // Generate a new unique filename in the selected folder
+            string fileName = "New HFSM Layer.asset";
+            string filePath = AssetDatabase.GenerateUniqueAssetPath(folderPath + "/" + fileName);
+            
+            // Create the HFSM layer
+            Layer layer = createLayer(filePath);
+            
+            AssetDatabase.ImportAsset(filePath);
+            Selection.activeObject = layer;
+            
+            HFSMWindow window = EditorWindow.GetWindow<HFSMWindow>();
+            window.layer = layer;
+            window.OnSelectionChange();
+
         }
 
         #endregion        
@@ -1073,5 +1114,17 @@ namespace Behaviours.HFSM.Editor
 
             Object.DestroyImmediate(service, true);
         }
+
+        public static List<Type> GetStatesTypes()
+        {
+            System.Type baseType = typeof(IBaseState);
+                            
+            // get all types subclasses of baseType
+            return System.AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => type.IsSubclassOf(baseType) && type != typeof(IBaseState))
+                .ToList(); 
+        }
     }
 }
+
