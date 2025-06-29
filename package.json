@@ -8,5 +8,12 @@
     },
     "author": {
         "name": "Death By Gravity Studio"
-    }
+    },
+    "samples": [
+        {
+            "displayName": "Sample Scene",
+            "description": "Simple example of using a Hierarchical Finite State Machine.",
+            "path": "Samples~/SampleScene"
+        }
+    ]
 }
