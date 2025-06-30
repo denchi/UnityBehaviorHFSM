@@ -1,6 +1,6 @@
 # Behaviour HFSM Module for Unity
 
-This project is a Unity-based package containing various modules for behavior management, including dialog, graph, HFSM, tree, and variable systems. It is currently under active development and is a work in progress.
+![Preview](.github/preview.jpg)
 
 ## HFSM Module Details
 
