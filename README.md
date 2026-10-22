@@ -12,7 +12,7 @@ The `com.deathbygravitystudio.behaviour.hfsm` package provides a modular Hierarc
 - **Sample Scene:** Comes with a sample scene demonstrating practical usage of the HFSM system.
 - **Shared Variable System:** Integrates with the shared variable package for state data management.
 
-This module is suitable for implementing complex AI, gameplay, or workflow systems in Unity projects.
+Use this package when your Unity project needs nested states, explicit transitions, and optional per-state services.
 
 ## Note
 This project is a work in progress. Features and documentation are subject to change.
